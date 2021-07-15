@@ -1,4 +1,4 @@
-# How to setup an RTSP server on Headless Raspberry Pi and stream RPi Camera data?
+# How to setup an RTSP server on Headless Raspberry Pi and stream RPi Camera data using GStreamer?
 
 
 ## 1. Setting up a new Raspberry Pi

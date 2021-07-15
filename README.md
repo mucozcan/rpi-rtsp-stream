@@ -6,7 +6,7 @@
 This guide is tested on 'Raspbian', so my suggestion is you should download the latest Raspbian version and flash it to SD card(Min. 16 GB suggested.).
 
 Raspbian download page : https://www.raspberrypi.org/software/operating-systems/ \
-You can use 'Raspberry Pi Imager' for flashing Raspbian to your SD Card. You can find requred installation file for your OS in [software page](https://www.raspberrypi.org/software/). Another good option is [Etcher](https://etcher.download/)
+You can use 'Raspberry Pi Imager' for flashing Raspbian to your SD Card. You can find required installation file for your OS in [software page](https://www.raspberrypi.org/software/). Another good option is [Etcher](https://etcher.download/).
 
 
 After successfully flashing Raspbian to your SD Card, don't remove it from your PC. Since our RPi setup will be headless, we need to enable SSH before powering the RPi.
@@ -26,7 +26,7 @@ After successfully flashing Raspbian to your SD Card, don't remove it from your 
 
 ## 2. Connecting to RPi via SSH
 
-* After connecting the RPi and your PC via ethernet, we should enable the hotspot on our pc. Open a terminal and type:
+* After connecting the RPi and your PC via ethernet, we should enable the hotspot on our local PC. Open a terminal and type:
 
     ```
     $ nm-connection-editor
@@ -48,7 +48,7 @@ After successfully flashing Raspbian to your SD Card, don't remove it from your 
     $ sudo arp-scan --interface=your-ethernet-interface --localnet
     ```
 
-* Connect to RPi. default username is `pi` and default password is `raspberry`
+* Connect to the RPi. default username is `pi` and default password is `raspberry`
 
     ```
     $ ssh pi@[RPi IP Address]
@@ -66,7 +66,7 @@ After successfully flashing Raspbian to your SD Card, don't remove it from your 
     $ sudo apt full-upgrade
     ```
 
-* Now you need to enable camera support using the raspi-config program you will have used when you first set up your Raspberry Pi.
+* Now you need to enable camera support using the `raspi-config`.
 
     ```
     $ sudo raspi-config
@@ -78,7 +78,7 @@ After successfully flashing Raspbian to your SD Card, don't remove it from your 
 
 * After rebooting, connect to the RPİ via SSH again.
 
-* Install development tools: 
+* On the RPi, Install development tools: 
 
     ```
     $ sudo apt-get install git build-essential autoconf automake autopoint libtool pkg-config -y
@@ -138,7 +138,7 @@ After successfully flashing Raspbian to your SD Card, don't remove it from your 
 
 ## 4. Stream camera data over RTSP Server
 
-* For the sake of simplicty, we are gonna use GStreamer examples that we've already installed, but you can write your own RTSP Server by following documentation. Navigate to GStreamer RTSP examples:
+* For the sake of simplicty, we are gonna use GStreamer examples that we've already compiled, but you can write your own RTSP Server by following documentation. Navigate to GStreamer RTSP examples:
     ```
     $ cd ~/gst-rtsp-server/examples/
     $ ./test-launch --gst-debug=3 "( rpicamsrc bitrate=8000000 awb-mode=tungsten preview=false ! video/x-h264, width=640, height=480, framerate=30/1 ! h264parse ! rtph264pay name=pay0 pt=96 )" 
@@ -150,7 +150,7 @@ After successfully flashing Raspbian to your SD Card, don't remove it from your 
 
 ## 5. Connecting to the server and retrieve data
 
-* Now our RTSP server should be up and running. There are a lot of ways to connect to server and retrieve data to your local machine. First, we are gonna use VLC media utilites and then we capture the stream by using OpenCV.
+* Now our RTSP server should be up and running on the RPi. There are lots of ways to connect to server and retrieve data to your local machine. First, we are gonna use VLC media utilites and then we capture the stream by using OpenCV.
 
 * Install VLC Media Player if you haven't already. On your local machine:
 
@@ -158,7 +158,7 @@ After successfully flashing Raspbian to your SD Card, don't remove it from your 
     $ sudo apt-get install VLC
     ```
 
-* Open up VLC and right click on window: Click `Open Media` -> `Open Network`. Enter the RTSP url : `rtsp://[Your RPi's IP Address]:8554/test`. (You can check your RPi's ip address by typing `ifconfig` in RPi terminal. You need to look IPv4 address of ethernet interface). Click on `Play` and you should be able to getvideo stream from your RPi cam!
+* Open up VLC and right click on window: Click `Open Media` -> `Open Network`. Enter the RTSP url : `rtsp://[Your RPi's IP Address]:8554/test`. (You can check your RPi's ip address by typing `ifconfig` in RPi terminal. You need to look IPv4 address of ethernet interface). Click on `Play` and you should be able to get video stream from your RPi cam!
 
 * To retrieve video stream using OpenCV, install OpenCV Python bindings, if you haven't already:
     ```

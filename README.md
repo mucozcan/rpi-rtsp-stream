@@ -13,13 +13,13 @@ After successfully flashing Raspbian to your SD Card, don't remove it from your 
 
 * First, you'll have to locate the boot directory. If you're on Ubuntu, it's in `/media/your-hostname/boot`. Open terminal and type:  
     ```
-    $ cd /media/your-hostname/boot
+    cd /media/your-hostname/boot
     ```
 
 * After navigating boot directory,  all you have to do is  creating an empty file called ssh.
 
     ```
-    $ touch ssh
+    touch ssh
     ```
 
 * Insert SD card to the Raspberry Pi. Now connect the RPi to power source and to your PC via ethernet cable. 
@@ -29,7 +29,7 @@ After successfully flashing Raspbian to your SD Card, don't remove it from your 
 * After connecting the RPi and your PC via ethernet, we should enable the hotspot on our local PC. Open a terminal and type:
 
     ```
-    $ nm-connection-editor
+    nm-connection-editor
     ```
     
     Double click to existing `Ethernet` connection to edit configuration. In opened window, navigate to `IPv4 Settings`, click `Method` options and select `Shared to other computers`. 
@@ -39,19 +39,19 @@ After successfully flashing Raspbian to your SD Card, don't remove it from your 
 * To scan your ethernet interface, you can use `arp-scan`. 
 
     ```
-    $ sudo apt-get install -y arp-scan
+    sudo apt-get install -y arp-scan
     ```
 
 * Scan your ethernet interface to find RPi's IP address. Only one result should be returned.
 
     ```
-    $ sudo arp-scan --interface=your-ethernet-interface --localnet
+    sudo arp-scan --interface=your-ethernet-interface --localnet
     ```
 
 * Connect to the RPi. default username is `pi` and default password is `raspberry`
 
     ```
-    $ ssh pi@[RPi IP Address]
+    ssh pi@[RPi IP Address]
     ```
 
 ## 3. Installing necessary packages to the RPi
@@ -59,17 +59,17 @@ After successfully flashing Raspbian to your SD Card, don't remove it from your 
 * After successfully connecting to the RPi via SSH, execute the following instructions on the command line to download and install the latest kernel, GPU firmware, and applications:
 
     ```
-    $ sudo apt-get update
+    sudo apt-get update
     ```
     
     ``` 
-    $ sudo apt full-upgrade
+    sudo apt full-upgrade
     ```
 
 * Now you need to enable camera support using the `raspi-config`.
 
     ```
-    $ sudo raspi-config
+    sudo raspi-config
     ```
     
     Use the cursor keys to select and open Interfacing Options, and then select Camera and follow the prompt to enable the camera.
@@ -81,67 +81,67 @@ After successfully flashing Raspbian to your SD Card, don't remove it from your 
 * On the RPi, Install development tools: 
 
     ```
-    $ sudo apt-get install git build-essential autoconf automake autopoint libtool pkg-config -y
+    sudo apt-get install git build-essential autoconf automake autopoint libtool pkg-config -y
 
-    $ sudo apt-get install gtk-doc-tools libglib2.0-dev -y
+    sudo apt-get install gtk-doc-tools libglib2.0-dev -y
 
-    $ sudo apt-get install checkinstall
+    sudo apt-get install checkinstall
     
     ```
 
 * To install essential GStreamer tools to the RPi, run the following command:
 
     ```
-    $ sudo apt-get install libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev libgstreamer-plugins-bad1.0-dev gstreamer1.0-plugins-base gstreamer1.0-plugins-good gstreamer1.0-plugins-bad gstreamer1.0-plugins-ugly gstreamer1.0-libav gstreamer1.0-doc gstreamer1.0-tools gstreamer1.0-x gstreamer1.0-alsa gstreamer1.0-gl gstreamer1.0-gtk3 gstreamer1.0-pulseaudio 
+    sudo apt-get install libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev libgstreamer-plugins-bad1.0-dev gstreamer1.0-plugins-base gstreamer1.0-plugins-good gstreamer1.0-plugins-bad gstreamer1.0-plugins-ugly gstreamer1.0-libav gstreamer1.0-doc gstreamer1.0-tools gstreamer1.0-x gstreamer1.0-alsa gstreamer1.0-gl gstreamer1.0-gtk3 gstreamer1.0-pulseaudio 
     
     ```
 
 * Now we need to install RTSP support of GStreamer:
     
     ```
-    $ sudo apt-get install libgstrtspserver-1.0-dev gstreamer1.0-rtsp
+    sudo apt-get install libgstrtspserver-1.0-dev gstreamer1.0-rtsp
     ```
     
     Clone the repository:
 
     ```
-    $ git clone https://github.com/GStreamer/gst-rtsp-server.git
-    $ cd gst-rtsp-server/
+    git clone https://github.com/GStreamer/gst-rtsp-server.git
+    cd gst-rtsp-server/
     ```
 
     we need to checkout previous version and then compile:
     
     ```
-    $ git checkout 1.13.91
-    $ ./autogen.sh
-    $ ./configure
-    $ make
-    $ sudo checkinstall make install # enter 3 and fill *Version* field with 1.13.91
+    git checkout 1.13.91
+    ./autogen.sh
+    ./configure
+    make
+    sudo checkinstall make install # enter 3 and fill *Version* field with 1.13.91
     
     ```
 * Now we need `raspivid` wrapper `gst-rpicamsrc`
 
     ```
-    $ cd ~
-    $ sudo apt-get install git
-    $ git clone https://github.com/thaytan/gst-rpicamsrc.git
-    $ cd gst-rpicamsrc/
-    $ ./autogen.sh 
-    $ make
-    $ sudo make install
+    cd ~
+    sudo apt-get install git
+    git clone https://github.com/thaytan/gst-rpicamsrc.git
+    cd gst-rpicamsrc/
+    ./autogen.sh 
+    make
+    sudo make install
     ```
 
     Check,  if `gst-rpicamsrc` is installed:
     ```
-    $ gst-inspect-1.0 | grep rpicamsrc
+    gst-inspect-1.0 | grep rpicamsrc
     ```
 
 ## 4. Stream camera data over RTSP Server
 
 * For the sake of simplicty, we are gonna use GStreamer examples that we've already compiled, but you can write your own RTSP Server by following documentation. Navigate to GStreamer RTSP examples:
     ```
-    $ cd ~/gst-rtsp-server/examples/
-    $ ./test-launch --gst-debug=3 "( rpicamsrc bitrate=8000000 awb-mode=tungsten preview=false ! video/x-h264, width=640, height=480, framerate=30/1 ! h264parse ! rtph264pay name=pay0 pt=96 )" 
+    cd ~/gst-rtsp-server/examples/
+    ./test-launch --gst-debug=3 "( rpicamsrc bitrate=8000000 awb-mode=tungsten preview=false ! video/x-h264, width=640, height=480, framerate=30/1 ! h264parse ! rtph264pay name=pay0 pt=96 )" 
     ```
     If you have an advanced knowledge about media codecs and GStreamer elements, feel free to edit the launchline above.
 
@@ -155,14 +155,14 @@ After successfully flashing Raspbian to your SD Card, don't remove it from your 
 * Install VLC Media Player if you haven't already. On your local machine:
 
     ```
-    $ sudo apt-get install VLC
+    sudo apt-get install VLC
     ```
 
 * Open up VLC and right click on window: Click `Open Media` -> `Open Network`. Enter the RTSP url : `rtsp://[Your RPi's IP Address]:8554/test`. (You can check your RPi's ip address by typing `ifconfig` in RPi terminal. You need to look IPv4 address of ethernet interface). Click on `Play` and you should be able to get video stream from your RPi cam!
 
 * To retrieve video stream using OpenCV, install OpenCV Python bindings, if you haven't already:
     ```
-    $ pip3 install opencv-python
+    pip3 install opencv-python
     ```
 
 * Execute the following script to retrieve stream:

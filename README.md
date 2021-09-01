@@ -114,7 +114,6 @@ After successfully flashing Raspbian to your SD Card, don't remove it from your 
     ```
     git checkout 1.13.91
     ./autogen.sh
-    ./configure
     make
     sudo checkinstall make install # enter 3 and fill *Version* field with 1.13.91
     
@@ -148,7 +147,7 @@ After successfully flashing Raspbian to your SD Card, don't remove it from your 
     After executing you should see the following output: `stream ready at rtsp://127.0.0.1:8554/test`
 
 
-## 5. Connecting to the server and retrieve data
+## 5. Connecting to the server and retrieving stream data
 
 * Now our RTSP server should be up and running on the RPi. There are lots of ways to connect to server and retrieve data to your local machine. First, we are gonna use VLC media utilites and then we capture the stream by using OpenCV.
 

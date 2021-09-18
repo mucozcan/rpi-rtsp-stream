@@ -115,7 +115,7 @@ After successfully flashing Raspbian to your SD Card, don't remove it from your 
     git checkout 1.13.91
     ./autogen.sh
     make
-    sudo checkinstall make install # enter 3 and fill *Version* field with 1.13.91
+    sudo make install
     
     ```
 * Now we need `raspivid` wrapper `gst-rpicamsrc`

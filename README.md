@@ -122,7 +122,6 @@ After successfully flashing Raspbian to your SD Card, don't remove it from your 
 
     ```
     cd ~
-    sudo apt-get install git
     git clone https://github.com/thaytan/gst-rpicamsrc.git
     cd gst-rpicamsrc/
     ./autogen.sh 
